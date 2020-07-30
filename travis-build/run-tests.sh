@@ -2,6 +2,7 @@
 
 PROJECT_PATH=$(pwd)
 UNITY_BUILD_DIR=$(pwd)/Build
+LOG_FILE=$(pwd)/Report/unit-test.log
 
 ERROR_CODE=1
 
@@ -10,9 +11,11 @@ echo "Running editor test..."
 	-batchmode \
 	-nographics \
 	-silent-crashes \
+	-logFile "$LOG_FILE" \
+	-force-free \
 	-projectPath "$PROJECT_PATH" \
-	-buildTarget "Windows" \
-	-runEditorTests
+	-buildTarget "Win" \
+	-runTests
 
 	if [ $? = 0 ]; then echo "Editor Tests Passed."
 		ERROR_CODE=0
