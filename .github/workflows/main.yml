@@ -15,7 +15,7 @@ jobs:
             fail-fast: false
             matrix:
                 projectPath:
-                    - ../AT-GNG/Go-Nogo-Task
+                    - Go-Nogo-Task
                 unityVersion:
                     - 2019.4.11f1
                 targetPlatform:
