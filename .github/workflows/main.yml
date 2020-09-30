@@ -15,11 +15,14 @@ jobs:
             fail-fast: false
             matrix:
                 projectPath:
-                    - test-project
+                    - AT-GNG/Go-Nogo-Task
                 unityVersion:
                     - 2019.4.11f1
                 targetPlatform:
                     - WebGL
+                testMode:
+                    - playmode
+                    - editmode
         steps:
             #Checkout
             - uses: actions/checkout@v2
@@ -36,26 +39,28 @@ jobs:
                     Library-
 
             #Test
-            - uses: webbertakken/unity-test-runner@v1.3
+            - uses: webbertakken/unity-test-runner@v1.4
               id: unity-test-runner
               with:
                 projectPath: ${{ matrix.projectPath }}
                 unityVersion: ${{ matrix.unityVersion }}
+                testMode: ${{ matrix.testMode }}
+                artifactsPath: ${{ matrix.testMode }}-artifacts
 
             #Output tests
             - uses: actions/upload-artifact@v1
               with:
-                name: Test results (all modes)
+                name: Test results for ${{ matrix.testMode }}
                 path: ${{ steps.testRunner.outputs.artifactsPath }}
 
             #Build
-            - uses: webbertakken/unity-builder@v0.10
+            - uses: webbertakken/unity-builder@<version>
               with:
+                versioning: Semantic
                 projectPath: ${{ matrix.projectPath }}
                 unityVersion: ${{ matrix.unityVersion }}
                 targetPlatform: ${{ matrix.targetPlatform }}
-                customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
-
+                
             #Output build
             - uses: actions/upload-artifact@v1
               with:
