@@ -1,0 +1,63 @@
+name: Actions
+
+on:
+	pull_request: {}
+	push: { branches: [master] }
+
+env:
+	UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+	buildAndTestForSomePlatforms:
+		name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+		runs-on: ubuntu-latest
+		strategy:
+			fail-fast: false
+			matrix:
+				projectPath:
+					- test-project
+				unityVersion:
+					- 2019.4.11f1
+				targetPlatform:
+					- WebGL
+			steps:
+                #Checkout
+				- uses: actions/checkout@v2
+				  with:
+					lfs: true
+
+                #Cache
+				- uses: actions/cache@v1.1.0
+				  with:
+				  	path: ${{ matrix.projectPath }}/Library
+				  	key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+                    restore-keys: |
+                        Library-${{ matrix.projectPath }}-
+                        Library-
+
+                #Test
+                - uses: webbertakken/unity-test-runner@v1.3
+                  id: unity-test-runner
+                  with:
+                    projectPath: ${{ matrix.projectPath }}
+                    unityVersion: ${{ matrix.unityVersion }}
+
+                #Output tests
+                - uses: actions/upload-artifact@v1
+                  with:
+                    name: Test results (all modes)
+                    path: ${{ steps.testRunner.outputs.artifactsPath }}
+
+                #Build
+                - uses: webbertakken/unity-builder@v0.10
+                  with:
+                    projectPath: ${{ matrix.projectPath }}
+                    unityVersion: ${{ matrix.unityVersion }}
+                    targetPlatform: ${{ matrix.targetPlatform }}
+                    customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+
+                #Output build
+                - uses: actions/upload-artifact@v1
+                  with:
+                    name: Build
+                    path: build
