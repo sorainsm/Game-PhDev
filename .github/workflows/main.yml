@@ -14,7 +14,7 @@ stages:
             name: Edit Mode Tests
             runs-on: self-hosted
             steps:
-                run: "C:\Program Files\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe" -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults .\unity-tests.xml
+                run: 'C:\Program Files\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe' -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults .\unity-tests.xml
                 shell: cmd
     - stage: build
       jobs:
