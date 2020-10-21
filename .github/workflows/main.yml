@@ -19,10 +19,10 @@ jobs:
         runs-on: self-hosted
         steps:
             - run: echo 'Build'
-              shell: bash
+              shell: cmd
     deploy:
         name: deploy
         runs-on: self-hosted
         steps:
             - run: echo 'Deploy'
-              shell: bash
+              shell: cmd
