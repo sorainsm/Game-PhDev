@@ -7,63 +7,21 @@ on:
 env:
     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-jobs:
-    buildAndTestForSomePlatforms:
-        name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
-        runs-on: self-hosted
-        strategy:
-            fail-fast: false
-            matrix:
-                projectPath:
-                    - Go-Nogo-Task
-                unityVersion:
-                    - 2019.4.11f1
-                targetPlatform:
-                    - WebGL
-                testMode:
-                    - playmode
-                    - editmode
-        steps:
-            #Checkout
-            - uses: actions/checkout@v2
-              with:
-                lfs: true
-
-            #Cache
-            - uses: actions/cache@v1.1.0
-              with:
-                path: ${{ matrix.projectPath }}/Library
-                key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-                restore-keys: |
-                    Library-${{ matrix.projectPath }}-
-                    Library-
-
-            #Test
-            - uses: webbertakken/unity-test-runner@v1.7
-              id: unity-test-runner
-              with:
-                projectPath: ${{ matrix.projectPath }}
-                unityVersion: ${{ matrix.unityVersion }}
-                testMode: ${{ matrix.testMode }}
-                artifactsPath: ${{ matrix.testMode }}-artifacts
-                customParameters: -nographics
-
-            #Output tests
-            - uses: actions/upload-artifact@v1
-              with:
-                name: Test results for ${{ matrix.testMode }}
-                path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-            #Build
-            - uses: webbertakken/unity-builder@v1.4
-              with:
-                versioning: Semantic
-                projectPath: ${{ matrix.projectPath }}
-                unityVersion: ${{ matrix.unityVersion }}
-                targetPlatform: ${{ matrix.targetPlatform }}
-                
-            #Output build
-            - uses: actions/upload-artifact@v1
-              with:
-                name: Build
-                path: build
+stages:
+    - stage: test
+      jobs:
+        test-edit-mode:
+            name: Edit Mode Tests
+            runs-on: self-hosted
+            steps:
+                script: "C:\Program Files\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults ./unity-tests.xml"
+    - stage: build
+      jobs:
+        build:
+            name: build
+            script: "echo 'Build'"
+    - stage: deploy
+      jobs:
+        build:
+            name: deploy
+            script: "echo 'Deploy'"
