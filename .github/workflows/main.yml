@@ -12,17 +12,17 @@ jobs:
         name: Edit Mode Tests
         runs-on: self-hosted
         steps:
-            run: echo 'Test'
-            shell: cmd
+            - run: echo 'Test'
+              shell: cmd
     build:
         name: build
         runs-on: self-hosted
         steps:
-            run: echo 'Build'
-            shell: bash
+            - run: echo 'Build'
+              shell: bash
     deploy:
         name: deploy
         runs-on: self-hosted
         steps:
-            run: echo 'Deploy'
-            shell: bash
+            - run: echo 'Deploy'
+              shell: bash
