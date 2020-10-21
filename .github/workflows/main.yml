@@ -7,24 +7,22 @@ on:
 env:
     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
-stages:
-    - stage: test
-      jobs:
-        test-edit-mode:
-            name: Edit Mode Tests
-            runs-on: self-hosted
-            steps:
-                run: echo 'Test'
-                shell: cmd
-    - stage: build
-      jobs:
-        build:
-            name: build
+jobs:
+    test-edit-mode:
+        name: Edit Mode Tests
+        runs-on: self-hosted
+        steps:
+            run: echo 'Test'
+            shell: cmd
+    build:
+        name: build
+        runs-on: self-hosted
+        steps:
             run: echo 'Build'
             shell: bash
-    - stage: deploy
-      jobs:
-        build:
-            name: deploy
+    deploy:
+        name: deploy
+        runs-on: self-hosted
+        steps:
             run: echo 'Deploy'
             shell: bash
