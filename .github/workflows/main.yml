@@ -1,4 +1,4 @@
-name: Actions
+name: Unity-Actions
 
 on:
     pull_request: {}
@@ -14,14 +14,17 @@ stages:
             name: Edit Mode Tests
             runs-on: self-hosted
             steps:
-                script: "C:\Program Files\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults ./unity-tests.xml"
+                run: "C:\Program Files\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe" -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults .\unity-tests.xml
+                shell: cmd
     - stage: build
       jobs:
         build:
             name: build
-            script: "echo 'Build'"
+            run: echo 'Build'
+            shell: bash
     - stage: deploy
       jobs:
         build:
             name: deploy
-            script: "echo 'Deploy'"
+            run: "echo 'Deploy'"
+            shell: bash
