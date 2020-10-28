@@ -12,7 +12,7 @@ jobs:
         name: Edit Mode Tests
         runs-on: self-hosted
         steps:
-            - run: echo 'Test'
+            - run: C:\"Program Files"\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe
               shell: cmd
     build:
         name: build
