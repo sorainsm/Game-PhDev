@@ -12,7 +12,15 @@ jobs:
         name: Edit Mode Tests
         runs-on: self-hosted
         steps:
-            - run: C:\"Program Files"\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe -batchmode -nographics -projectPath "https://github.com/sorainsm/Game-PhDev/tree/master/Go-Nogo-Task" -runTests -testPlatform editmode -logFile -testResults .\unit-tests.xml -quit
+            #Checkout repo
+            - name: Checkout repository
+              uses: actions/checkout@v2
+              with:
+                lfs: true
+
+            #Run Unity Tests
+            - name: Run Unity EditMode Tests
+              run: C:\"Program Files"\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe -batchmode -nographics -projectPath . -runTests -testPlatform editmode -logFile -testResults .\unit-tests.xml -quit
               shell: cmd
     build:
         name: build
