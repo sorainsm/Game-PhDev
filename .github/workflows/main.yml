@@ -21,6 +21,7 @@ jobs:
             #Make a directory to save artifacts in
             - name: Make directory for test outputs
               run: mkdir TestLog
+              shell: cmd
 
             #Run Unity Tests
             - name: Run Unity EditMode Tests
