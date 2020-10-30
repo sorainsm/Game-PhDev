@@ -18,10 +18,21 @@ jobs:
               with:
                 lfs: true
 
+            #Make a directory to save artifacts in
+            - name: Make directory for test outputs
+              run: mkdir TestLog
+
             #Run Unity Tests
             - name: Run Unity EditMode Tests
-              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath .\Go-Nogo-Task -runTests -testPlatform editmode -logFile -testResults .\unit-tests.xml -quit
+              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath .\Go-Nogo-Task -runTests -testPlatform editmode -logFile -testResults .\TestLog\unit-tests.xml -quit
               shell: cmd
+
+            #Upload artifact
+            - name: Upload test outputs
+              uses: actions/upload-artifact@v2
+              with:
+                name: unit-tests
+                path: .\TestLog\unit-tests.xml
     build:
         name: build
         runs-on: self-hosted
