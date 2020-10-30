@@ -26,12 +26,12 @@ jobs:
 
             #Run Unity Tests
             - name: Run Unity EditMode Tests
-              run: ${{UNITY_LOCATION}} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform editmode -testResults TestLog\editmode-tests.xml -logFile TestLog\editmode.log
+              run: ${UNITY_LOCATION} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform editmode -testResults TestLog\editmode-tests.xml -logFile TestLog\editmode.log
               shell: cmd
 
             #Run Unity Playmode tests
             - name: Run Unity Playmode Tests
-              run: ${{UNITY_LOCATION}} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform playmode -testResults TestLog\playmode-tests.xml -logFile TestLog\playmode.log
+              run: ${UNITY_LOCATION} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform playmode -testResults TestLog\playmode-tests.xml -logFile TestLog\playmode.log
 
             #Upload artifact
             - name: Upload test outputs
