@@ -25,7 +25,7 @@ jobs:
 
             #Run Unity Tests
             - name: Run Unity EditMode Tests
-              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath .\Go-Nogo-Task -runTests -testResults TestLog\unit-tests.xml -logFile TestLog\artifact.log -quit
+              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath Go-Nogo-Task\ -runTests -testResults TestLog\unit-tests.xml -logFile TestLog\artifact.log -quit
               shell: cmd
 
             #Upload artifact
