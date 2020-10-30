@@ -20,7 +20,7 @@ jobs:
 
             #Run Unity Tests
             - name: Run Unity EditMode Tests
-              run: C:\"Program Files"\Unity\Hub\Editor\2019.4.11f1\Editor\Unity.exe -batchmode -nographics -projectPath .\Go-Nogo-Task -runTests -testPlatform editmode -logFile -testResults .\unit-tests.xml -quit
+              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath .\Go-Nogo-Task -runTests -testPlatform editmode -logFile -testResults .\unit-tests.xml -quit
               shell: cmd
     build:
         name: build
