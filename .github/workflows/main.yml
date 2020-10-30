@@ -6,10 +6,11 @@ on:
 
 env:
     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+    UNITY_LOCATION: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe
 
 jobs:
-    test-edit-mode:
-        name: Edit Mode Tests
+    tests:
+        name: Run Tests
         runs-on: self-hosted
         steps:
             #Checkout repo
@@ -25,8 +26,12 @@ jobs:
 
             #Run Unity Tests
             - name: Run Unity EditMode Tests
-              run: C:\"Program Files"\Unity\Hub\Editor\2020.1.6f1\Editor\Unity.exe -batchmode -projectPath Go-Nogo-Task\ -runTests -testResults TestLog\unit-tests.xml -logFile TestLog\artifact.log -quit
+              run: ${{UNITY_LOCATION}} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform editmode -testResults TestLog\editmode-tests.xml -logFile TestLog\editmode.log
               shell: cmd
+
+            #Run Unity Playmode tests
+            - name: Run Unity Playmode Tests
+              run: ${{UNITY_LOCATION}} -batchmode -projectPath Go-Nogo-Task\ -runTests -testPlatform playmode -testResults TestLog\playmode-tests.xml -logFile TestLog\playmode.log
 
             #Upload artifact
             - name: Upload test outputs
