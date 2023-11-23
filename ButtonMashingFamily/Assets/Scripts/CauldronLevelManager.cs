@@ -20,7 +20,7 @@ public class CauldronLevelManager : LevelManager
     KeyCode target2 = KeyCode.LeftArrow;
 
     public GameObject cauldron;
-    public GameObject magicCircle;
+    public GameObject smoke;
     public GameObject bubbles;
 
     public GameObject player;
@@ -38,7 +38,7 @@ public class CauldronLevelManager : LevelManager
         Setup();
         maxGameTime = 10f;
         Debug.Log("Cauldron::Game time set to " + maxGameTime);
-        goal = 60;
+        goal = 45;
         Debug.Log("Cauldron::Goal is set to " + goal);
         Debug.Log("Cauldron::Target keys are set to " + target1 + " " + target2);
         scoreModifier = 1f;
@@ -57,6 +57,7 @@ public class CauldronLevelManager : LevelManager
     {
         string outro = "good job";
         //StartCoroutine(FinishingAnimations());
+        FinalScoring();
         if (score < 0.5f*goal)
         {
             outro = "Not quite...";
@@ -117,6 +118,63 @@ public class CauldronLevelManager : LevelManager
             KeyCode pressedKey = e.keyCode;
             HalfStir(t, pressedKey);
         }    
+    }
+
+    void FinalScoring()
+    {
+    	Debug.Log("FinalScoring called.");
+    	ParticleSystem ps = smoke.GetComponent<ParticleSystem>();
+    	var scoreSmoke = ps.main;
+    	int successScore = 0;
+
+    	Debug.Log("Score is " + score + ". Goal is " + goal);
+		if (score < 0.5f*goal) 
+		{
+			Debug.Log("Fail");
+			successScore = 0;
+    	} else if (0.5f*goal < score && score < 0.75f*goal)
+    	{
+    		Debug.Log("Success: green");
+    		scoreSmoke.startColor = Color.green;
+    		successScore = 1;
+    	} else if (0.75f*goal < score && score < 1.0f*goal) 
+    	{
+    		Debug.Log("Success: yellow");
+    		scoreSmoke.startColor = Color.yellow;
+    		successScore = 1;
+    	} else if (1.0f*goal < score && score < 1.5f*goal)
+    	{
+    		Debug.Log("Success: blue");    		
+    		scoreSmoke.startColor = Color.blue;
+    		successScore = 2;
+    	} else if (1.5f*goal < score) 
+    	{
+    		Debug.Log("Success: cyan");    		
+    		scoreSmoke.startColor = Color.cyan;
+    		successScore = 2;
+    	}
+
+    	if (ps != null)
+    	{
+	   		smoke.SetActive(true);
+    		ps.Play();
+    	}
+
+    	switch(successScore)
+    	{
+    		case 0:
+    			fail.Play();
+    			break;
+    		case 1:
+    			success.Play();
+    			break;
+    		case 2:
+    			superSucess.Play();
+    			break;
+    		default:
+    			fail.Play();
+    			break;
+    	}
     }
 
     // Update is called once per frame
