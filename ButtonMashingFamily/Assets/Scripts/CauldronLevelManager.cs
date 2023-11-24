@@ -83,9 +83,7 @@ public class CauldronLevelManager : LevelManager
             if (pressedKey == nextKey)
             {
                 Debug.Log("Correct key in sequence");
-                score += scoreModifier;
-                Debug.Log("New score is " + score);
-                //When the 1st key is pressed, animator should move the forward stir
+                 //When the 1st key is pressed, animator should move the forward stir
                 if(pressedKey == target1)
                 {
                     playerAnim.Play("Base Layer.StirF");
@@ -95,6 +93,9 @@ public class CauldronLevelManager : LevelManager
                 {
                    playerAnim.Play("Base Layer.StirB");
                    nextKey = target1;
+                   //Score increases at the end of successful sequence
+                   score += scoreModifier;
+                   Debug.Log("New score is " + score);
                 }
              }
         }
@@ -123,40 +124,49 @@ public class CauldronLevelManager : LevelManager
     void FinalScoring()
     {
     	Debug.Log("FinalScoring called.");
-    	ParticleSystem ps = smoke.GetComponent<ParticleSystem>();
-    	var scoreSmoke = ps.main;
     	int successScore = 0;
+        int effectScore = 0;
 
     	Debug.Log("Score is " + score + ". Goal is " + goal);
 		if (score < 0.5f*goal) 
 		{
-			Debug.Log("Fail");
+			Debug.Log("Fail: Abyssmal");
 			successScore = 0;
+            effectScore = 0;
     	} else if (0.5f*goal < score && score < 0.75f*goal)
     	{
-    		Debug.Log("Success: green");
-    		scoreSmoke.startColor = Color.green;
+    		Debug.Log("Fail: Bad");
+            effectScore = 1;
     		successScore = 1;
     	} else if (0.75f*goal < score && score < 1.0f*goal) 
     	{
-    		Debug.Log("Success: yellow");
-    		scoreSmoke.startColor = Color.yellow;
+    		Debug.Log("Success: Average-");
+            effectScore = 2;
     		successScore = 1;
-    	} else if (1.0f*goal < score && score < 1.5f*goal)
+    	} else if (1.0f*goal < score && score < 1.25f*goal)
     	{
-    		Debug.Log("Success: blue");    		
-    		scoreSmoke.startColor = Color.blue;
+    		Debug.Log("Success: Average+");    		
+            effectScore = 3;
     		successScore = 2;
-    	} else if (1.5f*goal < score) 
+    	} else if (1.25f*goal < score && score < 1.5f*goal) 
     	{
-    		Debug.Log("Success: cyan");    		
-    		scoreSmoke.startColor = Color.cyan;
+    		Debug.Log("Success: Good");    		
+            effectScore = 4;
     		successScore = 2;
-    	}
+    	} else if (1.5f*goal < score)
+        {
+            Debug.Log("Success: Excellent");         
+            effectScore = 5;
+            successScore = 2;
+        }
 
+        var finalEffect = FinalEffect(smoke, effectScore);
+        Debug.Log("Final effect is " + finalEffect.name);
+        var ps = finalEffect.GetComponent<ParticleSystem>();
+ 
     	if (ps != null)
     	{
-	   		smoke.SetActive(true);
+	   		finalEffect.SetActive(true);
     		ps.Play();
     	}
 
@@ -176,6 +186,40 @@ public class CauldronLevelManager : LevelManager
     			break;
     	}
     }
+
+    GameObject FinalEffect(GameObject effectParent, int effect)
+    {
+        Debug.Log("FinalEffect::Start");
+        Transform final;
+        switch(effect)
+        {
+            case 0:
+                final = effectParent.transform.Find("Souls");
+                break;
+            case 1:
+                final = effectParent.transform.Find("PoisonCloud");
+                break;
+            case 2:
+                final = effectParent.transform.Find("PurpleSmoke");
+                break;
+            case 3:
+                final = effectParent.transform.Find("Glow");
+                break;
+            case 4:
+                final = effectParent.transform.Find("Electric");
+                break;
+            case 5:
+                final = effectParent.transform.Find("Firewall");
+                break;
+            default:
+                final = effectParent.transform.Find("Souls");
+                break;
+        }
+
+        return final.gameObject;
+    }
+
+
 
     // Update is called once per frame
     void Update()
