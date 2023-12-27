@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menus/PracticeList.unity
     guid: 77c35d08d707c534bacd60b305364629
+  - enabled: 1
+    path: Assets/Scenes/Games/AIBM-Cauldron.unity
+    guid: fbdffd1053c520d469d8d4a47fb5a289
   m_configObjects: {}

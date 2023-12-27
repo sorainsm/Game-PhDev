@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 public class PracticeScreen : MonoBehaviour
 {
 	public Button Campfire;
+    public Button Cauldron;
 	public Button Back;
 
     // Start is called before the first frame update
     void Start()
     {
         Campfire.onClick.AddListener(LoadCampfire);
+        Cauldron.onClick.AddListener(LoadCauldron);
         Back.onClick.AddListener(ReturnMain);
     }
 
@@ -25,6 +27,11 @@ public class PracticeScreen : MonoBehaviour
     {
     	MinigameManager.Instance.SetPractice(false);
     	SceneManager.LoadScene("StartScreen", LoadSceneMode.Single);
+    }
+
+    void LoadCauldron()
+    {
+        SceneManager.LoadScene("AIBM-Cauldron", LoadSceneMode.Single);
     }
 
 }
