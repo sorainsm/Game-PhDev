@@ -1,0 +1,42 @@
+{
+  "$type": "Scores, Assembly-CSharp",
+  "StartTime": "2023-12-29-10-35-01",
+  "EndTime": "2023-12-29-10-37-41",
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameScores, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "SIBMScore, Assembly-CSharp",
+        "minigame": "Campfire",
+        "scene": "SIBM-Campfire",
+        "targetKey": "Space",
+        "maxGameTime": 10.0,
+        "goal": 60,
+        "scoreModifier": 1.0,
+        "score": 60.0
+      },
+      {
+        "$type": "AIBMScore, Assembly-CSharp",
+        "minigame": "Cauldron",
+        "scene": "AIBM-Cauldron",
+        "targetKey": "RightArrow",
+        "targetKey2": "LeftArrow",
+        "maxGameTime": 10.0,
+        "goal": 45,
+        "scoreModifier": 1.0,
+        "score": 43.0
+      },
+      {
+        "$type": "MIBMScore, Assembly-CSharp",
+        "minigame": "Broom",
+        "scene": "MIBM-Broom",
+        "targetKey": "RightArrow",
+        "targetKey2": "LeftArrow",
+        "maxGameTime": 10.0,
+        "goal": 60,
+        "scoreModifier": 1.0,
+        "score": 60.0
+      }
+    ]
+  }
+}

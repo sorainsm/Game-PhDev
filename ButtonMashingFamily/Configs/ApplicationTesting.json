@@ -1,0 +1,39 @@
+{
+  "$type": "ExperimentConfig, Assembly-CSharp",
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "SIBMConfig, Assembly-CSharp",
+        "minigame": "Campfire",
+        "scene": "SIBM-Campfire",
+        "targetKey": null,
+        "maxGameTime": 0.0,
+        "goal": 0,
+        "scoreModifier": 0.0
+      },
+      {
+        "$type": "AIBMConfig, Assembly-CSharp",
+        "minigame": "Cauldron",
+        "scene": "AIBM-Cauldron",
+        "targetKey": null,
+        "maxGameTime": 0.0,
+        "goal": 0,
+        "scoreModifier": 0.0,
+        "targetKey2": null
+      },
+      {
+        "$type": "MIBMConfig, Assembly-CSharp",
+        "minigame": "Broom",
+        "scene": "MIBM-Broom",
+        "targetKey": null,
+        "maxGameTime": 0.0,
+        "goal": 0,
+        "scoreModifier": 0.0,
+        "targetKey2": null
+      }
+    ]
+  }
+}

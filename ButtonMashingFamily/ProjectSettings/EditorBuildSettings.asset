@@ -12,9 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Games/SIBM-Campfire.unity
     guid: 0a0457cd4f9f73f47ac8739a6508339d
   - enabled: 1
-    path: Assets/Scenes/Menus/PracticeList.unity
-    guid: 77c35d08d707c534bacd60b305364629
-  - enabled: 1
     path: Assets/Scenes/Games/AIBM-Cauldron.unity
     guid: fbdffd1053c520d469d8d4a47fb5a289
+  - enabled: 1
+    path: Assets/Scenes/Games/MIBM-Broom.unity
+    guid: ecf8a987079747d40be5f1d695b97571
+  - enabled: 1
+    path: Assets/Scenes/Menus/EndScreen.unity
+    guid: 90d1520b1f3efcf489bd189d4016c4af
+  - enabled: 1
+    path: Assets/Scenes/Menus/PracticeList.unity
+    guid: 77c35d08d707c534bacd60b305364629
   m_configObjects: {}

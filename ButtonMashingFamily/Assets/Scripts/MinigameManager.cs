@@ -4,20 +4,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using SpoiledCat.Json;
-
+using Newtonsoft.Json;
 
 public class MinigameManager
 {
    // Configuration
-    //private const string ServerURL = "http://127.0.0.1:8000/connect";
-    private const string StartScene = "Battery Start";
-    private const string EndScene = "Battery End";
+    private const string StartScene = "StartScreen";
+    private const string EndScene = "EndScreen";
     private const string ConfigFileName = "ExperimentConfig.json";
 
     // Where Generated Configs are Placed
-    private const string ConfigPath = "./Assets/Configs/";
-    private const string GeneratedFileName = "GeneratedTemplate.json";
+    private string m_Path = Application.persistentDataPath;
+    private string ConfigPath;
+    private string ScorePath;
+    private string GeneratedFileName;
 
     // Name the same as generated file name for clean up purposes.
     private const string GeneratedMetaFileName = "GeneratedTemplate.meta";
@@ -26,12 +26,14 @@ public class MinigameManager
 	static private Dictionary<string,GameConfig> GameList = new Dictionary<string,GameConfig>
 	{
 		{"SIBM-Campfire", new SIBMConfig()},
-        {"AIBM-Cauldron", new AIBMConfig()}
+        {"AIBM-Cauldron", new AIBMConfig()},
+        {"MIBM-Broom", new MIBMConfig()}
 	};
 
 	private ConfigsHandler Config;
+    private ScoresHandler Scores;
 	private SceneController Scene;
-	private FileHandler File;
+	private FileHandler FileH;
 
 	private bool IsLoaded;
 	private bool IsPractice = false;
@@ -40,16 +42,19 @@ public class MinigameManager
 
 	private MinigameManager()
 	{
+        ConfigPath = m_Path + "/Configs/";
+        ScorePath = m_Path + "/Scores/";
+        GeneratedFileName  = "GeneratedTemplate.json";
 		Reset();
 	}
 
 	public void Reset()
 	{
 		Config = new ConfigsHandler(GameList);
-        File = new FileHandler(ConfigPath, GeneratedFileName, GeneratedMetaFileName);
+        Scores = new ScoresHandler(ScorePath);
+        FileH = new FileHandler(ConfigPath, GeneratedFileName, GeneratedMetaFileName);
         IsLoaded = false;
-        //Guid token = Guid.NewGuid();
-        //Token = token.ToString();
+        IsPractice = false;
 	}
 
 	public string GetConfigFileName()
@@ -88,21 +93,22 @@ public class MinigameManager
     }
 
     // Load the BatteryConfig JSON file and deserialize it while maintaining type information. Currently uses TextAsset which is a Unity Resource type. This allows easier file reading but it may not be wise to clutter resource folder. 
-    public void LoadGames(string json)
+    public void LoadGames(string jsonFile)
     {
+        string json = FileH.ReadFile(jsonFile);
         Config.Load(json);
         Scene = new SceneController(StartScene, EndScene, Config.GameScenes());
         IsLoaded = true;
     }
 
     // Scenes are loaded by name
-    public void LoadScene(string Scene)
+    public void LoadScene(string thisScene)
     {
         // LoadSceneMode.Single means that all other scenes are unloaded before new scene is loaded.
-        SceneManager.LoadScene(Scene, LoadSceneMode.Single); 
+        SceneManager.LoadScene(thisScene, LoadSceneMode.Single); 
     }
 
- public string SerializedConfig()
+    public string SerializedConfig()
     {
         return Config.Serialize();
     }
@@ -139,8 +145,11 @@ public class MinigameManager
         if (IsLoaded)
         {
             Scene.Next();
-            Debug.Log(Scene.Name());
+            Debug.Log("MinigameManager:: Loading " + Scene.Name());
             LoadScene(Scene.Name());
+        } else 
+        {
+            LoadScene(EndScene);
         }
     }
 
@@ -159,11 +168,28 @@ public class MinigameManager
         return null;
     }
 
+    public void AddScore(GameScores s)
+    {
+        Scores.AddScoreToList(s);
+    }
+
     // As the configurable variables are added, deleted or renamed during development in order not have to constantly sync these names with the configuration files this function can be used to generate a blank configuration file based off those variables. 
     public void WriteExampleConfig()
     {
-        File.WriteGenerated(Config.Generate());
-    }    
+        FileH.WriteGenerated(Config.Generate());
+    }
 
+    public void WriteScores()
+    {
+        string data = Scores.SerializeScores();
+        string path = Scores.GetScorePath();
+        if (File.Exists(path))
+        {
+            FileH.WriteFile(path,data);    
+        } else 
+        {
+            FileH.WriteGenerated(data);
+        }      
+    }
 
 }

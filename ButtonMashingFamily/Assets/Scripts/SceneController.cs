@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
 
 public class SceneController
 {
@@ -30,6 +30,7 @@ public class SceneController
 
 	public void Next()
 	{
+		Debug.Log("SceneController::Incrementing index to " + Index);
 		Index++;
 	}
 
@@ -40,21 +41,22 @@ public class SceneController
 
 	public string Name()
 	{
+		Debug.Log("SceneController:: Getting name at index " + Index);
 		if (Index < 0)
 		{
+			Debug.Log("SceneController::Returning " + Start);
 			return Start;
-		}
-
-		if (Index >= Max)
+		} else if (Index >= Max)
 		{
+			Debug.Log("SceneController::Returning " + End);			
 			return End;
-		}
-
-		if (Index < Games.Count)
+		} else if (Index < Games.Count)
 		{
+			Debug.Log("SceneController::Returning " + Games[Index]);			
 			return Games[Index];
+		} else 
+		{
+			return End;			
 		}
-
-		return End;
 	}
 }
