@@ -58,7 +58,7 @@ public class CampfireLevelManager : LevelManager
 
         maxGameTime = config.maxGameTime > 0 ? config.maxGameTime : Default(10f,"maxGameTime");
         goal = config.goal > 0 ? config.goal : Default(60, "goal");
-        targetKey = config.targetKey != null ? (KeyCode) System.Enum.Parse(typeof(KeyCode), config.targetKey, true) : Default(KeyCode.Space, "targetKey");
+        targetKey = config.targetKey != null ? (KeyCode) System.Enum.Parse(typeof(KeyCode), config.targetKey, true) : Default(KeyCode.RightArrow, "targetKey");
         scoreModifier = config.scoreModifier > 0 ? config.scoreModifier : Default(1f,"scoreModifier");
 
         scoreOut.minigame = config.minigame;
@@ -77,22 +77,22 @@ public class CampfireLevelManager : LevelManager
     	StartCoroutine(FinishingAnimations());
         if (score < 0.5f*goal)
         {
-            outro = "Not quite...\n";
+            outro = "Not quite...\n Rank: F\n";
         } else if (0.5f*goal <= score && score < 0.75f*goal)
         {
-            outro = "Green! \n So close!\n";
+            outro = "Green! \n So close!\nRank: D\n";
         } else if (0.75f*goal <= score && score < 1.0f*goal)
         {
-            outro = "Yellow! \n Good job!\n";
+            outro = "Yellow! \n Good job!\n Rank: C\n";
         } else if (1.0f*goal <= score && score < 1.25f*goal)
         {
-            outro = "Orange! \n A great cast!\n";
+            outro = "Orange! \n A great cast!\nRank: B\n";
         } else if (1.25f*goal <= score && score < 1.5*goal)
         {
-            outro = "Blue! \n Amazing cast!\n";
+            outro = "Blue! \n Amazing cast!\nRank: A\n";
         } else if (1.5f*goal <= score)
         {
-            outro = "White! \n A perfect cast!\n";            
+            outro = "White! \n A perfect cast!\nRank: S\n";            
         }
         outro += "[ENTER to continue]";
     	outroText.GetComponent<TMPro.TextMeshProUGUI>().text = outro;
@@ -206,7 +206,7 @@ public class CampfireLevelManager : LevelManager
     		}
     	}
 
-        if (lvlState == LevelState.End && e.type==EventType.KeyUp)
+        if (lvlState == LevelState.End && e.type==EventType.KeyUp && !MinigameManager.Instance.GetPractice())
         {
             if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter)
             {

@@ -85,22 +85,22 @@ public class CauldronLevelManager : LevelManager
         FinalScoring();
         if (score < 0.5f*goal)
         {
-            outro = "Are those ghosts?! \n Not quite what we wanted...\n";
+            outro = "Are those ghosts?! \n Not quite what we wanted...\n Rank: F\n";
         } else if (0.5f*goal <= score && score < 0.75f*goal)
         {
-            outro = "A poison cloud! \n So close, but so far!\n";
+            outro = "A poison cloud! \n So close, but so far!\n Rank: D\n";
         } else if (0.75f*goal <= score && score < 1.0f*goal)
         {
-            outro = "Purple smoke! \n Good progress!\n";
+            outro = "Purple smoke! \n Good progress!\n Rank: C\n";
         } else if (1.0f*goal <= score && score < 1.25f*goal)
         {
-            outro = "A soft glow! \n A great cast!\n";
+            outro = "A soft glow! \n A great cast!\n Rank: B\n";
         } else if (1.25f*goal <= score && score < 1.5*goal)
         {
-            outro = "Crackling with power! \n Amazing cast!\n";
+            outro = "Crackling with power! \n Amazing cast!\n Rank: A\n";
         } else if (1.5f*goal <= score)
         {
-            outro = "Overflowing with power!! \n A perfect cast!\n";            
+            outro = "Overflowing with power!! \n A perfect cast!\n Rank: S\n";            
         }
         outro += "[ENTER to continue]";        
         outroText.GetComponent<TMPro.TextMeshProUGUI>().text = outro;
@@ -162,7 +162,7 @@ public class CauldronLevelManager : LevelManager
             HalfStir(t, pressedKey);
         }
 
-        if (lvlState == LevelState.End && e.type==EventType.KeyUp)
+        if (lvlState == LevelState.End && e.type==EventType.KeyUp && !MinigameManager.Instance.GetPractice())
         {
             if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter)
             {

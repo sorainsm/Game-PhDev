@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.021308, y: 0.92904973}
-  m_SizeDelta: {x: 407.46, y: 280.75}
+  m_AnchoredPosition: {x: 23.453, y: 0.44968}
+  m_SizeDelta: {x: 504.0524, y: 281.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44479259
 MonoBehaviour:
@@ -181,9 +181,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Your spell power determines the fire''s colour.
+  m_text: 'Your spell power determines the fire''s colour. Aim for a white hot flame!
 
-    [ENTER to continue]'
+    [ENTER
+    to continue]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768ecad719607a249b8a0c92040138ba, type: 2}
   m_sharedMaterial: {fileID: -3217425083205851316, guid: 768ecad719607a249b8a0c92040138ba, type: 2}
@@ -1579,8 +1580,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.1710997, y: -1.2642}
-  m_SizeDelta: {x: 406.3422, y: 257.9074}
+  m_AnchoredPosition: {x: 11.989, y: 7.259}
+  m_SizeDelta: {x: 481.1234, y: 268.09}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &733502793
 MonoBehaviour:
@@ -1602,10 +1603,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press SPACE to charge your spell until the time runs out!
-
-    [ ENTER
-    to continue ]'
+  m_text: "Charge your spell by pressing the RIGHT ARROW as many times as you can
+    until the time runs out! \n[ ENTER to continue ]"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768ecad719607a249b8a0c92040138ba, type: 2}
   m_sharedMaterial: {fileID: -3217425083205851316, guid: 768ecad719607a249b8a0c92040138ba, type: 2}
@@ -1632,7 +1631,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.5
+  m_fontSize: 30
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3674,10 +3673,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The power order is:
-
-    White (Highest) > Blue > Orange > Yellow > Green
-    (Lowest)
+  m_text: 'You will be graded by the scheme: S (the best) > A > B > C > D > F (the
+    worst)
 
     [ ENTER to start! ]'
   m_isRightToLeft: 0
@@ -3706,7 +3703,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.8
+  m_fontSize: 32
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

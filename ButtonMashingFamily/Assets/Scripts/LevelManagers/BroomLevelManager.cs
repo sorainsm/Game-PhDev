@@ -14,6 +14,10 @@ public class BroomLevelManager : LevelManager
 	KeyCode target1;
 	KeyCode target2;
     HashSet<KeyCode> currentKeys = new HashSet<KeyCode>();
+    bool target1Pressed;
+    bool target2Pressed;
+    int target1PressCount = 0;
+    int target2PressCount = 0;
 
 	public GameObject playerParent;
     public GameObject player;
@@ -84,22 +88,22 @@ public class BroomLevelManager : LevelManager
         StartCoroutine(FinishingAnimations());
         if (score < 0.5f*goal)
         {
-            outro = "Not quite...\n";
+            outro = "Not quite...\nRank: F\n";
         } else if (0.5f*goal < score && score < 0.75f*goal)
         {
-            outro = "We have lift off! \n So close!\n";
+            outro = "We have lift off! \n So close!\nRank: D\n";
         } else if (0.75f*goal <= score && score < 1.0f*goal)
         {
-            outro = "In the clouds! \n Good job!\n";
+            outro = "In the clouds! \n Good job!\nRank: C\n";
         } else if (1.0f*goal <= score && score < 1.25f*goal)
         {
-            outro = "Above the clouds! \n A great cast!\n";
+            outro = "Above the clouds! \n A great cast!\nRank: B\n";
         } else if (1.25f*goal <= score && score < 1.5*goal)
         {
-            outro = "Almost in orbit! \n Amazing cast!\n";
+            outro = "Almost in orbit! \n Amazing cast!\nRank: A\n";
         } else if (1.5f*goal <= score)
         {
-            outro = "Out of this world! \n A perfect cast!\n";            
+            outro = "Out of this world! \n A perfect cast!\nRank: S\n";            
         }
         outro += "[ENTER to continue]";
         outroText.GetComponent<TMPro.TextMeshProUGUI>().text = outro;
@@ -120,34 +124,91 @@ public class BroomLevelManager : LevelManager
             }
         }
 
+        //Playing the level and a key event happens
         if (lvlState==LevelState.Playing && e.isKey)
         {
-            if (e.keyCode == target1 || e.keyCode == target2)
-            {
-                if (e.type == EventType.KeyDown)
+            //A key is pressed down
+            if (e.type == EventType.KeyDown)
+            {   
+                Debug.Log("KeyDown");
+                //The key is target1 and it is not being held
+                if (e.keyCode == target1 && target1Pressed == false)
                 {
+                    Debug.Log("Target1 pressed; was not pressed before");
+                    target1Pressed = true;
+                    target1PressCount++;
                     currentKeys.Add(e.keyCode);
-                } else if (e.type == EventType.KeyUp)
+                //The key is target2 a dit is not being held
+                } else if (e.keyCode == target2 && target2Pressed == false) 
                 {
-                    currentKeys.Remove(e.keyCode);
+                    Debug.Log("Target2 pressed; was not pressed before");
+                    target2Pressed = true;
+                    target2PressCount++;
+                    currentKeys.Add(e.keyCode);                    
+                } else {
+                    return;
                 }
-
-                if (currentKeys.Count == 2 && currentKeys.Contains(target1) && currentKeys.Contains(target2))
-                {
-                    Debug.Log("Broom::Both keys pressed");
-                    score += scoreModifier;
-                    Debug.Log("Broom::New score is " + score);
-
-                    if (isCharging == false)
-                    {
-                         isCharging = true;
-                         Charging();
-                    }
-                }               
             }
+
+            if (e.type == EventType.KeyUp)
+            {
+                Debug.Log("KeyUp");
+                if (e.keyCode == target1)
+                {
+                    Debug.Log("Target1 released");
+                    target1Pressed = false;
+                } else if (e.keyCode == target2) {
+                    Debug.Log("Target2 released");
+                    target2Pressed = false;
+                } else {
+                    return;
+                }
+                currentKeys.Remove(e.keyCode);
+            }
+
+            if (currentKeys.Count == 2 && currentKeys.Contains(target1) && currentKeys.Contains(target2))
+            {
+                Debug.Log("Broom::Both keys pressed");
+                score += scoreModifier;
+                Debug.Log("Broom::New score is " + score);
+
+                if (isCharging == false)
+                {
+                     isCharging = true;
+                     Charging();
+                }
+            } 
+
+            // //Check if the key is one of our two keys
+            // if (e.keyCode == target1 || e.keyCode == target2)
+            // {
+            //     //If it is and it is pressed down add it to the count
+            //     if (e.type == EventType.KeyDown)
+            //     {
+
+            //         currentKeys.Add(e.keyCode);
+            //     //When we let go remove it from the count
+            //     } else if (e.type == EventType.KeyUp)
+            //     {
+            //         currentKeys.Remove(e.keyCode);
+            //     }
+
+            //     if (currentKeys.Count == 2 && currentKeys.Contains(target1) && currentKeys.Contains(target2))
+            //     {
+            //         Debug.Log("Broom::Both keys pressed");
+            //         score += scoreModifier;
+            //         Debug.Log("Broom::New score is " + score);
+
+            //         if (isCharging == false)
+            //         {
+            //              isCharging = true;
+            //              Charging();
+            //         }
+            //     }               
+            // }
         }
 
-        if (lvlState == LevelState.End && e.type==EventType.KeyUp)
+        if (lvlState == LevelState.End && e.type==EventType.KeyUp && !MinigameManager.Instance.GetPractice())
         {
             if (e.keyCode == KeyCode.Return || e.keyCode == KeyCode.KeypadEnter)
             {
@@ -383,7 +444,7 @@ public class BroomLevelManager : LevelManager
     			final = effectParent.transform.Find("Good-SpiralFire");
     			break;    		
     		case 4:
-    			final = effectParent.transform.Find("Better-SprialIce");
+    			final = effectParent.transform.Find("Better-SpiralIce");
     			break;    		
     		case 5:
     			final = effectParent.transform.Find("Excellent-Flash");

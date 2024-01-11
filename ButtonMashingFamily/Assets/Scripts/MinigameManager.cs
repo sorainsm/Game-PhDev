@@ -75,6 +75,11 @@ public class MinigameManager
     // Returns the GameConfig interface type. Specific games will have to cast the GameConfig to their respective Config class in order to child parameters. 
     public GameConfig GetCurrentConfig()
     {
+        if (IsPractice)
+        {
+            return null;
+        } 
+        
         if (IsLoaded)
         {
             return Config.Get(Scene.Current());

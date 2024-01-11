@@ -196,12 +196,12 @@ public abstract class LevelManager : MonoBehaviour
 	public void EndLevel(float delay)
 	{
 		lvlState = LevelState.End;
-		StartCoroutine(WrapUp(delay));
-		bgmGameplay.Stop();
-		//We need the final text box to stay on the screen until we're ready to move on
+		bgmGameplay.Stop();					
 		if (MinigameManager.Instance.GetPractice())
 		{
-			StartCoroutine(PracticeReturn(2*delay));
+			StartCoroutine(PracticeReturn(delay));
+		} else {
+			StartCoroutine(WrapUp(delay));
 		}
 	}
 
